@@ -1,5 +1,13 @@
+import express from 'express';
+import config from './utils/config';
+const app = express();
 
-git remote add origin https://github.com/Team1-2308-Capstone/week4-project.git
-git branch -M main
-git push -u origin main
+app.use(express.json());
 
+app.get('/', (_, res) => {
+  res.send('this might be working');
+});
+
+app.listen(config.PORT, () => {
+  console.log(`Server running on port ${config.PORT}`)
+});

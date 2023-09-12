@@ -1,0 +1,11 @@
+{
+  "name": "webhook_project",
+  "version": "1.0.0",
+  "description": "A RequestBin-like clone",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bethany, David, Michael, Fred",
+  "license": "ISC"
+}

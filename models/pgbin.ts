@@ -9,11 +9,16 @@ class PgBin extends Model {
 }
 
 PgBin.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    field: 'id'
+  },
   binId: {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,
-    primaryKey: true,
     field: 'bin_id'
   },
   createdAt: {

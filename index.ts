@@ -1,6 +1,7 @@
 import express from 'express';
 import config from './utils/config';
 const app = express();
+const cors = require('cors');
 const mongoose = require('mongoose');
 import sequelize from './utils/sequelize';
 import Request from './models/request';
@@ -19,6 +20,7 @@ sequelize.authenticate()
     console.error('Unable to connect to PostgreSQL:', error);
   });
 
+app.use(cors());
 app.use(express.json());
 
 mongoose.connect(config.MONGODB_URI)

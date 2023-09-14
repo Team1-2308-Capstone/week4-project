@@ -1,0 +1,58 @@
+POST http://localhost:3001/api/bins
+
+###
+
+POST http://localhost:3001/api/bins/nshv-74b539/requests
+
+###
+
+GET http://localhost:3001/api/bins/nshv-74b539/requests
+
+###
+
+
+GET http://localhost:3001/api/bins/
+
+###
+
+POST http://localhost:3001/api/bins/tosb-1f74de/requests
+
+###
+
+POST http://localhost:3001/api/bins/u773-703395/requests
+###
+
+GET http://localhost:3001/api/bins/u773-703395/requests
+
+###
+
+POST http://localhost:3001/api/bins/y018-ba5ff3/requests
+
+###
+
+PUT http://localhost:3001/api/bins/y018-ba5ff3/requests
+
+### 
+GET https://7729-64-98-214-35.ngrok-free.app/api/bins
+
+### 
+POST https://7729-64-98-214-35.ngrok-free.app/api/bins
+
+### 
+GET https://7729-64-98-214-35.ngrok-free.app/api/bins/gjft-ba5329
+
+### 
+DELETE https://7729-64-98-214-35.ngrok-free.app/api/bins/gjft-ba5329
+
+###
+GET https://7729-64-98-214-35.ngrok-free.app/api/bins/h5xm-65f1e7/incoming/
+
+###
+PUT https://7729-64-98-214-35.ngrok-free.app/api/bins/h5xm-65f1e7/incoming/
+
+###
+
+GET https://7729-64-98-214-35.ngrok-free.app/api/bins/h5xm-65f1e7/requests/65026412ed9502779715cffd
+
+###
+DELETE https://7729-64-98-214-35.ngrok-free.app/api/bins/h5xm-65f1e7/requests/65026412ed9502779715cffd

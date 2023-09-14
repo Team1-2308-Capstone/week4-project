@@ -15,11 +15,11 @@ PgBin.init({
     primaryKey: true,
     field: 'id'
   },
-  binId: {
+  binPath: {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,
-    field: 'bin_id'
+    field: 'bin_path'
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -29,8 +29,7 @@ PgBin.init({
   },
   lastRequest: {
     type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
+    allowNull: true,
     field: 'last_request'
   },
 }, {

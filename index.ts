@@ -35,44 +35,9 @@ app.get('/', (_, res) => {
   res.send('this might be working');
 });
 
-app.get('/test', async (req, res) => {
-
-  // Test for adding to MongoDB:
-  // let testObj = { event: {
-  //     client_ip: "198.231.111.19"
-  //   }
-  // }
- 
-
-  let httpString = `
-    This is method: ${req.method}\n 
-    This is path: ${req.path}\n 
-    This is body: ${JSON.stringify(req.body)}\n 
-    This is query: ${JSON.stringify(req.query)}\n 
-    This is protocol_version: ${req.httpVersion}\n
-  `
-  //path is the expect /test
-  // body is [object Object]
-  // query is []
-  res.send(httpString)
-  // const initialSave = new Request(testObj)
-  // await initialSave.save()
-  
-  // res.send(initialSave.toJSON())
-
-  // Test for seeing how much http req info we can get:
-  // res.send('Received your request!');
-  
-  // Test for adding to Postgres:
-  // let test = {
-  //   binId: "66",
-  //   createdAt: new Date(),
-  //   lastRequest: new Date(),
-  // }
-  
-  // const newBin = new PgBin(test)
-  // await newBin.save()
-})
+// app.get('/test', async (req, res) => {
+//   // use for testing
+// })
 
 // GET /api/bins/ -- Get all bins information //
 app.get('/api/bins', async (req, res) => {
@@ -118,15 +83,27 @@ app.all('/api/bins/:binPath/incoming', async (req, res) => {
   const newRequestObj = {
     binPath: req.params.binPath,
     event: {
+      client_ip: req.ip,
       method: req.method,
+      url: req.url,
       path: req.path,
+      headers: req.headers,
       body: req.body,
-      query: req.query
-    }
+      query: req.query,
+      protocol_version: req.httpVersion,
+      // tls_info: (req.connection as tls.TLSSocket).getPeerCertificate(),
+    },
+    // payload: JSON.stringify(req),
   }
 
   const newRequest = new Request(newRequestObj)
   await newRequest.save()
+
+  if (clients[binPath]) {
+    clients[binPath].forEach(client => {
+      client.write(`data: ${JSON.stringify(newRequest.toJSON())}\n\n`)
+    })
+  }
   
   res.json(newRequestObj)
 });
@@ -187,8 +164,60 @@ app.delete('/api/bins/:binPath/requests/:reqId', async (req, res) => {
   }
 });
 
+// let clients = {};
+
+// binRouter.get('/:binId/events', (req, res) => {
+//   const binId = req.params.binId;
+  
+//   console.log(`Client connected to /api/bins/${binId}/events`);
+//   // Initialize if not already done
+//   if (!clients[binId]) {
+//     clients[binId] = [];
+//   }
+  
+//   // Set headers for EventSource to keep connection alive
+//   res.setHeader('Content-Type', 'text/event-stream');
+//   res.setHeader('Cache-Control', 'no-cache');
+//   res.setHeader('Connection', 'keep-alive');
+//   res.flushHeaders();
+
+//   // Add this client to the list of clients interested in this binId
+//   clients[binId].push(res);
+
+//   // If a client disconnects, remove it from the list of clients interested in this binId
+//   req.on('close', () => {
+//     clients[binId] = clients[binId].filter(client => client !== res);
+//   });
+// });
+
+let clients: { [key: string]: express.Response[] } = {};
+// SSE 
+app.get('/api/bins/:binPath/events', async (req: express.Request, res: express.Response) => {
+  const binPath = req.params.binPath;
+  
+  console.log(`Client connected to /api/bins/${binPath}/events`);
+  // Initialize if not already done
+  if (!clients[binPath]) {
+    clients[binPath] = [];
+  }
+  
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+    // Add this client to the list of clients interested in this binId
+  clients[binPath].push(res);
+
+  // If a client disconnects, remove it from the list of clients interested in this binId
+  req.on('close', () => {
+    clients[binPath] = clients[binPath].filter(client => client !== res);
+  });
+});
+
+
+
 // Start server:
 app.listen(config.PORT, () => {
   console.log(`Server running on port ${config.PORT}`)
 });
-

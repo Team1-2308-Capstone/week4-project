@@ -13,12 +13,12 @@ const requestSchema = new mongoose.Schema({
     headers: Object,
     body: Object,
     query: Object,
-    protocol_version: String,
-    tls_info: Object
+    protocol_version: String
+    // tls_info: Object
   },
-  payload: {
-    raw: String,
-  },
+  // payload: {
+  //   raw: String,
+  // },
   timestamp: {
     type: Date,
     default: Date.now

@@ -10,12 +10,15 @@ GET http://localhost:3001/api/bins/nshv-74b539/requests
 
 ###
 
+http://localhost:3001/api/bins/85c4-431825/incoming
+
+###
 
 GET http://localhost:3001/api/bins/
 
 ###
 
-POST http://localhost:3001/api/bins/tosb-1f74de/requests
+GET http://localhost:3001/api/bins/7toc-1a389a/incoming
 
 ###
 

@@ -7,6 +7,8 @@ import sequelize from './utils/sequelize';
 import Request from './models/request';
 import generatePath from './utils/idGenerator';
 import PgBin from './models/pgbin';
+// import path
+import path from 'path';
 
 sequelize.authenticate()
   .then(() => {
@@ -21,6 +23,7 @@ sequelize.authenticate()
   });
 
 app.use(cors());
+app.use(express.static('build'));
 app.use(express.json());
 
 mongoose.connect(config.MONGODB_URI)
@@ -30,6 +33,7 @@ mongoose.connect(config.MONGODB_URI)
   .catch((error: Error) => {
     console.log('error connecting to MongoDB:', error.message);
   });
+
 
 app.get('/', (_, res) => {
   res.send('this might be working');
@@ -216,6 +220,9 @@ app.get('/api/bins/:binPath/events', async (req: express.Request, res: express.R
 });
 
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build/index.html'));
+});
 
 // Start server:
 app.listen(config.PORT, () => {

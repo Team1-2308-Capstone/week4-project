@@ -119,11 +119,11 @@ app.get('/api/bins/:binPath/requests', async (req, res) => {
     const pgLookupAttempt = await PgBin.findOne({ where: { binPath: binPath }});
 
     if (!pgLookupAttempt) {
-      res.status(404).send("No such bin")
+      return res.status(404).send("No such bin")
     }
 
     const requestObjects = await Request.find( { binPath });
-    res.json(requestObjects.map(reqObj => reqObj.toJSON()));
+    return res.json(requestObjects.map(reqObj => reqObj.toJSON()));
   } catch (error) {
     console.error(`Error retrieving request for binPath ${binPath} ${error}`);
     res.status(500).send(`Something bad happened`);
@@ -158,13 +158,13 @@ app.delete('/api/bins/:binPath/requests/:reqId', async (req, res) => {
   try {
     const deletedRequest = await Request.findByIdAndRemove(reqId);
     if (!deletedRequest) {
-      res.status(404).send("No such request");
+      return res.status(404).send("No such request");
     } else {
-      res.status(204).end();
+      return res.status(204).end();
     }
   } catch (error) {
     console.error(`Error retrieving request for request ${reqId} ${error}`);
-    res.status(500).send(`Something bad happened`); 
+    return res.status(500).send(`Something bad happened`); 
   }
 });
 

@@ -108,6 +108,11 @@ app.all('/api/bins/:binPath/incoming', async (req, res) => {
       client.write(`data: ${JSON.stringify(newRequest.toJSON())}\n\n`)
     })
   }
+
+  // Update the bin's lastRequest property:
+  if (pgLookupAttempt) {
+    await pgLookupAttempt.update({ lastRequest: new Date() })
+  }
   
   res.json(newRequestObj)
 });

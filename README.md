@@ -1,4 +1,4 @@
-# Request Bucket Backend
+# ReqBin Backend
 
 ## Steps for Local Install
 

@@ -6,7 +6,7 @@
 2. Change to cloned repository directory and `npm install`
 3. Create `.env` file in this root directory that will need values for `POSTGRES_URI`, `MONGODB_URI`, and `PORT`
 
-- `POSTGRES_UI` - Your connection link to a postgresDB
+- `POSTGRES_URI` - Your connection link to a postgresDB
 - `MONGODB_URI` - Your connection link to a MongoDB
 - `PORT` - local port that you want the backend server to run on
 
